@@ -11,11 +11,10 @@ def lambda_handler(event, context):
     logging.info(json.dumps(event))
 
     logging.info('context: ')
-    logging.info(json.dumps(context))
+    print(context)
 
     logging.info('End From Step1')
 
     return {
-        'event': json.dumps(event),
-        'context': json.dumps(context)
+        'event': json.dumps(event)
     }

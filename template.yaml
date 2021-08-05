@@ -25,11 +25,11 @@ Resources:
             - Arn
         Step2Arn: 
           Fn::GetAtt:
-            - Step1D0
+            - Step2D0
             - Arn
         Step3Arn: 
           Fn::GetAtt:
-            - Step1D0
+            - Step3D0
             - Arn
       Tags:
         'Application ID': '1184'
@@ -37,6 +37,12 @@ Resources:
       Policies: 
         - StepFunctionsExecutionPolicy : 
             StateMachineName: StateMachineD0
+        - LambdaInvokePolicy:
+            FunctionName: Step1D0-d0
+        - LambdaInvokePolicy:
+            FunctionName: Step2D0-d0
+        - LambdaInvokePolicy:
+            FunctionName: Step3D0-d0
 
   Step1D0:
     Type: AWS::Serverless::Function
