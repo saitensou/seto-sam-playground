@@ -34,7 +34,9 @@ Resources:
       Tags:
         'Application ID': '1184'
         'Environment' : 'd0'
-
+      Policies: 
+        - StepFunctionsExecutionPolicy : 
+            StateMachineName: StateMachineD0
 
   Step1D0:
     Type: AWS::Serverless::Function
