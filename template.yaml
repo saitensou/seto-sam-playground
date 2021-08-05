@@ -63,5 +63,5 @@ Outputs:
   StateMachineD0:
     Description: "PlaygroundStateMachineD0"
     Value:
-      Ref: CxIodaStepRiseIbebtcD0
+      Ref: StateMachineD0
 
