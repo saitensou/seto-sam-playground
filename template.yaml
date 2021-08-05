@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Seto Playground
+Globals:
+  Function:
+    Handler: lambda_function.lambda_handler
+    Runtime: python3.7
+    MemorySize: 256
+    Timeout: 600
+    Tags:
+        'Application ID': '1184'
+        'Environment' : 'd0'
+
+Resources:
+  StateMachineD0:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: 'StateMachineD0'    
+      DefinitionUri: statemachine/StateMachineD0.json
+      DefinitionSubstitutions: 
+        Step1Arn: 
+          - GetAtt:
+            - Step1D0
+            - Arn
+        Step2Arn: 
+          - GetAtt:
+            - Step1D0
+            - Arn
+        Step3Arn: 
+          - GetAtt:
+            - Step1D0
+            - Arn
+      Tags:
+        'Application ID': '1184'
+        'Environment' : 'd0'
+
+
+  Step1D0:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'Step1D0-d0'
+      CodeUri: functions/Step1D0/
+      Description: 'Step1D0'
+
+  Step2D0:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'Step2D0-d0'
+      CodeUri: functions/Step2D0/
+      Description: 'Step2D0'
+
+  Step3D0:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'Step3D0-d0'
+      CodeUri: functions/Step3D0/
+      Description: 'Step3D0'
+
+Outputs:
+  StateMachineD0:
+    Description: "PlaygroundStateMachineD0"
+    Value:
+      Ref: CxIodaStepRiseIbebtcD0
+
