@@ -20,15 +20,15 @@ Resources:
       DefinitionUri: statemachine/StateMachineD0.json
       DefinitionSubstitutions: 
         Step1Arn: 
-          - GetAtt:
+          Fn::GetAtt:
             - Step1D0
             - Arn
         Step2Arn: 
-          - GetAtt:
+          Fn::GetAtt:
             - Step1D0
             - Arn
         Step3Arn: 
-          - GetAtt:
+          Fn::GetAtt:
             - Step1D0
             - Arn
       Tags:
