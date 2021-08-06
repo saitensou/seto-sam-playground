@@ -1,7 +1,8 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  Seto Playground
+Description: 'Seto Playground
+
+  '
 Globals:
   Function:
     Handler: lambda_function.lambda_handler
@@ -9,84 +10,80 @@ Globals:
     MemorySize: 256
     Timeout: 600
     Tags:
-        'Application ID': '11845'
-        'Environment' : 'd0'
-
+      Application ID: '11845'
+      Environment: d0
 Resources:
   StateMachineD0:
     Type: AWS::Serverless::StateMachine
     Properties:
-      Name: 'StateMachineD0'    
-      DefinitionUri: statemachine/StateMachineD0.json
-      DefinitionSubstitutions: 
-        Step1Arn: 
+      Name: StateMachineD0
+      DefinitionUri: ..\..\statemachine\StateMachineD0.json
+      DefinitionSubstitutions:
+        Step1Arn:
           Fn::GetAtt:
-            - Step1D0
-            - Arn
-        Step2Arn: 
+          - Step1D0
+          - Arn
+        Step2Arn:
           Fn::GetAtt:
-            - Step2D0
-            - Arn
-        Step3Arn: 
+          - Step2D0
+          - Arn
+        Step3Arn:
           Fn::GetAtt:
-            - Step3D0
-            - Arn
+          - Step3D0
+          - Arn
       Tags:
-        'Application ID': '1184'
-        'Environment' : 'd0'
+        Application ID: '1184'
+        Environment: d0
       Role:
         Fn::GetAtt:
         - StateMachineExecutionRole
         - Arn
-  
   StateMachineExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
         - Effect: Allow
           Principal:
-            Service: 
-              - Fn::Sub: "states.${AWS::Region}.amazonaws.com"
+            Service:
+            - Fn::Sub: states.${AWS::Region}.amazonaws.com
           Action: sts:AssumeRole
       Policies:
       - PolicyName: StatesExecutionPolicy
         PolicyDocument:
-          Version: "2012-10-17"
-          Statement: 
+          Version: '2012-10-17'
+          Statement:
           - Effect: Allow
             Action:
-              - lambda:InvokeFunction
+            - lambda:InvokeFunction
             Resource:
             - Fn::Sub:
-              - "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*"
+              - arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*
               - functionName: Step1D0-d0
             - Fn::Sub:
-              - "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*"
+              - arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*
               - functionName: Step2D0-d0
             - Fn::Sub:
-              - "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*"
+              - arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*
               - functionName: Step3D0-d0
           - Effect: Allow
             Action:
-              - states:StartExecution
+            - states:StartExecution
             Resource:
               Fn::Sub:
-              - "arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:stateMachine:${stateMachineName}"
+              - arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:stateMachine:${stateMachineName}
               - stateMachineName: StateMachineD0
-
   Step1D0:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'Step1D0-d0'
-      CodeUri: functions/Step1D0/
-      Description: 'Step1D0'
+      FunctionName: Step1D0-d0
+      CodeUri: Step1D0
+      Description: Step1D0
       Role:
         Fn::GetAtt:
         - Step1ExecutionRole
         - Arn
-
   Step1ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -100,31 +97,25 @@ Resources:
       Policies:
       - PolicyName: Step1ExecutionRolePolicy
         PolicyDocument:
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
-            - Effect: Allow
-              Action:
-              - lambda:InvokeFunction
-              Resource:
-              - Fn::Sub:
-                - "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*"
-                - functionName: Step1D0-d0
-            # - Effect: Allow
-            #   Action:
-            #   - s3:GetObject
-            #   - s3:GetObjectTagging
-
+          - Effect: Allow
+            Action:
+            - lambda:InvokeFunction
+            Resource:
+            - Fn::Sub:
+              - arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*
+              - functionName: Step1D0-d0
   Step2D0:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'Step2D0-d0'
-      CodeUri: functions/Step2D0/
-      Description: 'Step2D0'
+      FunctionName: Step2D0-d0
+      CodeUri: Step2D0
+      Description: Step2D0
       Role:
         Fn::GetAtt:
         - Step2ExecutionRole
         - Arn
-
   Step2ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -138,28 +129,25 @@ Resources:
       Policies:
       - PolicyName: Step2ExecutionRolePolicy
         PolicyDocument:
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
-            - Effect: Allow
-              Action:
-              - lambda:InvokeFunction
-              Resource:
-              - Fn::Sub:
-                - "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*"
-                - functionName: Step2D0-d0
-
-
+          - Effect: Allow
+            Action:
+            - lambda:InvokeFunction
+            Resource:
+            - Fn::Sub:
+              - arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*
+              - functionName: Step2D0-d0
   Step3D0:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: 'Step3D0-d0'
-      CodeUri: functions/Step3D0/
-      Description: 'Step3D0'
+      FunctionName: Step3D0-d0
+      CodeUri: Step3D0
+      Description: Step3D0
       Role:
         Fn::GetAtt:
         - Step3ExecutionRole
         - Arn
-
   Step3ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -173,19 +161,17 @@ Resources:
       Policies:
       - PolicyName: Step3ExecutionRolePolicy
         PolicyDocument:
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
-            - Effect: Allow
-              Action:
-              - lambda:InvokeFunction
-              Resource:
-              - Fn::Sub:
-                - "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*"
-                - functionName: Step3D0-d0
-
+          - Effect: Allow
+            Action:
+            - lambda:InvokeFunction
+            Resource:
+            - Fn::Sub:
+              - arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${functionName}*
+              - functionName: Step3D0-d0
 Outputs:
   StateMachineD0:
-    Description: "PlaygroundStateMachineD0"
+    Description: PlaygroundStateMachineD0
     Value:
       Ref: StateMachineD0
-

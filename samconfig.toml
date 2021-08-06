@@ -1,0 +1,10 @@
+version = 0.1
+[test]
+[test.deploy]
+[test.deploy.parameters]
+stack_name = "seto-test-sam"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-u88em54u30lx"
+s3_prefix = "seto-test-sam"
+region = "us-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
